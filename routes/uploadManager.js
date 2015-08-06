@@ -12,6 +12,7 @@ var options = {
     // to prevent executing any scripts in the context of the service domain:
     inlineFileTypes:  /\.(gif|jpe?g|png)$/i,
     imageTypes:  /\.(gif|jpe?g|png)$/i,
+    copyImgAsThumb: true,
     imageVersions: {
         maxWidth: 200,
         maxHeight: 'auto',
