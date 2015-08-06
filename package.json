@@ -6,13 +6,18 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "express": "~4.0.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
+    "async": "^1.4.0",
+    "blueimp-file-upload-expressjs": "latest",
     "body-parser": "~1.0.0",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "ejs": "~0.8.5",
-    "blueimp-file-upload-expressjs": "latest"
+    "express": "~4.0.0",
+    "imager": "^0.4.0",
+    "images": "^2.1.6",
+    "morgan": "~1.0.0",
+    "multer": "^1.0.1",
+    "static-favicon": "~1.0.0"
   }
 }

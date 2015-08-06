@@ -1,75 +1,76 @@
+var Imager = require('imager');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
+var async = require('async');
 // config the uploader
 var options = {
-    tmpDir:  __dirname + '/../public/uploaded/tmp',
-    publicDir: __dirname + '/../public/uploaded',
-    uploadDir: __dirname + '/../public/uploaded/files',
-    uploadUrl:  '/uploaded/files/',
-    maxPostSize: 11000000000, // 11 GB
-    minFileSize:  1,
-    maxFileSize:  10000000000, // 10 GB
-    acceptFileTypes:  /.+/i,
-    // Files not matched by this regular expression force a download dialog,
-    // to prevent executing any scripts in the context of the service domain:
-    inlineFileTypes:  /\.(gif|jpe?g|png)$/i,
-    imageTypes:  /\.(gif|jpe?g|png)$/i,
-    copyImgAsThumb: true,
-    imageVersions: {
-        maxWidth: 200,
-        maxHeight: 'auto',
-        "large" : {
-            width : 600,
-            height : 600
-        },
-        "medium" : {
-            width : 300,
-            height : 300
-        },
-        "small" : {
-            width : 150,
-            height : 150
-        }
+  variants: {
+    article: {
+      resize: {
+        detail: 'x440'
+      },
+      crop: {
+
+      },
+      resizeAndCrop: {
+        mini: { resize: '63504@', crop: '252x210' }
+      }
     },
-    accessControl: {
-        allowOrigin: '*',
-        allowMethods: 'OPTIONS, HEAD, GET, POST, PUT, DELETE',
-        allowHeaders: 'Content-Type, Content-Range, Content-Disposition'
-    },
-    nodeStatic: {
-        cache:  3600 // seconds to cache served files
-    },
-    storage : {
-        type : 'aws', // local or aws
-        aws : {
-            accessKeyId :  'xxxx', // required if aws
-            secretAccessKey : 'xxxx', // required if aws
-            region : 'us-west-2', //make sure you know the region, else leave this option out
-            bucketName : 'xxxx' // required if aws
-        }
+
+    gallery: {
+      crop: {
+        thumb: '100x100'
+      }
     }
+  },
+
+  storage: {
+    S3: {
+      key: 'AKIAJTUSJMPN6VCYMNHA',
+      secret: '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',
+      bucket: 'bluimptest'
+    }
+  },
+
+  debug: true
 };
 
-var uploader = require('blueimp-file-upload-expressjs')(options);
+//var uploader = require('blueimp-file-upload-expressjs')(options);
 
 
 module.exports = function (router) {
     router.get('/upload', function(req, res) {
-      uploader.get(req, res, function (obj) {
-            res.send(JSON.stringify(obj)); 
-      });
-      
+        res.send();
     });
 
-    router.post('/upload', function(req, res) {
-      uploader.post(req, res, function (obj) {
-            res.send(JSON.stringify(obj)); 
-      });
-      
+    router.post('/upload', multipartMiddleware, function(req, res) {
+        var images = req.files.files
+        ? [req.files.files]
+        : undefined;
+        if (!images || !images.length) {
+            console.log('no images');
+            return res.send(500, 'no images')
+        }
+        var imager = new Imager(options, 'S3');
+        console.log(images, imager)
+        var images2upload = []
+        async.forEach(images, function(image,cb){
+            images2upload.push(image[0]);
+            cb();
+        }, function(){
+            imager.upload(images2upload, function (err, cdnUri, files) {
+                console.log(cdnUri,files, err);            
+                if (err) return res.send(500, err);
+                res.send(files)
+            }, 'article');
+
+
+        })
+        
     });
 
     router.delete('/uploaded/files/:name', function(req, res) {
-      uploader.delete(req, res, function (obj) {
-            res.send(JSON.stringify(obj)); 
-      });
+      
       
     });
     return router;
