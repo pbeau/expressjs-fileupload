@@ -26,9 +26,9 @@ var options = {
 
   storage: {
     S3: {
-      key: 'AKIAJTUSJMPN6VCYMNHA',
-      secret: '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',
-      bucket: 'bluimptest'
+      key: '',
+      secret: '',
+      bucket: ''
     }
   },
 
