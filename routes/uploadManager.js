@@ -40,10 +40,10 @@ var options = {
     storage : {
         type : 'aws', // local or aws
         aws : {
-            accessKeyId :  'xxxxxxxxxxxxxxxxx', // required if aws
-            secretAccessKey : 'xxxxxxxxxxxxxxxxxxxxxxx', // required if aws
+            accessKeyId :  'xxxx', // required if aws
+            secretAccessKey : 'xxxx', // required if aws
             region : 'us-west-2', //make sure you know the region, else leave this option out
-            bucketName : 'xxxxxxxxx' // required if aws
+            bucketName : 'xxxx' // required if aws
         }
     }
 };
