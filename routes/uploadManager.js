@@ -27,10 +27,10 @@ var options = {
     storage : {
         type : 'aws', // local or aws
         aws : {
-            accessKeyId :  'xxxxxxxxxxxxxxxxx', // required if aws
-            secretAccessKey : 'xxxxxxxxxxxxxxxxxxxxxxx', // required if aws
+            accessKeyId :  'AKIAIHIO3KIOZHZCQVPA', // required if aws
+            secretAccessKey : 'XwCoDOhmm5RfCUJev34uia', // required if aws
             region : 'us-west-2', //make sure you know the region, else leave this option out
-            bucketName : 'xxxxxxxxx' // required if aws
+            bucketName : 'getjourney' // required if aws
         }
     }
 };
