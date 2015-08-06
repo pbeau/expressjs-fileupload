@@ -23,6 +23,15 @@ var options = {
     },
     nodeStatic: {
         cache:  3600 // seconds to cache served files
+    },
+    storage : {
+        type : 'aws', // local or aws
+        aws : {
+            accessKeyId :  'xxxxxxxxxxxxxxxxx', // required if aws
+            secretAccessKey : 'xxxxxxxxxxxxxxxxxxxxxxx', // required if aws
+            region : 'us-west-2', //make sure you know the region, else leave this option out
+            bucketName : 'xxxxxxxxx' // required if aws
+        }
     }
 };
 
